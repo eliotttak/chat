@@ -1,6 +1,7 @@
 const http = require("http")
 const fs = require("fs")
-const WebSocketServer = require("websocket").server
+const ws = require("ws")
+const net = require("net")
 const publicFiles = [
     "/",
     "/images/send-message-click.svg",
@@ -41,7 +42,7 @@ function sendJsonMessage(receiver, data) {
 const server = http.createServer((request, result) => { // création du server
     const name = decodeURIComponent(request.url)
     console.log(name)
-    let path = "/home/elapp/prog/internet/chat"+(name)
+    let path = __dirname+(name)
     let segments = path.split(/\//)
     let lastSegment = segments[segments.length - 1]
     if (! /\./.test(lastSegment)) { // si la requete est un dossier
@@ -142,15 +143,32 @@ server.listen(8894, "" , ()=>{
 })
 
 
-wsServer = new WebSocketServer({
-    httpServer: server,
-    autoAcceptConnections: false
-})
 
-let connections = []
+
+wsServer = new ws.Server({
+    port: 8894
+})
+let connections = new Set()
 let pseudos = []
 
-wsServer.on("request", request => {
+wsServer.on("connection", socket => {
+    console.table(socket)
+})
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*wsServer.on("request", request => {
     console.log("connection requested.")
     const connection = request.accept(null, request.origin)
     connections.push([connection, null]) // Ajouter la connexion et le pseudo (null pour le moment)
@@ -196,3 +214,4 @@ wsServer.on("request", request => {
         }
     })
 })
+*/
