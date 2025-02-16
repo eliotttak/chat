@@ -1,0 +1,17 @@
+#okmessage {
+    border: none;
+    left: 5px;
+    position: relative;
+    width: 35px
+}
+
+.fromServer {
+    color:#777777;
+    font-size:85%
+}
+
+.pseudoLabel {
+    border-radius:3px;
+    background-color:#e0e0e0;
+    color:#404040
+}
