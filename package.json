@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "local-ip": "^2.0.0",
+    "websocket": "^1.0.35"
+  }
+}
