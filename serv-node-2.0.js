@@ -29,18 +29,18 @@ const deniedPseudoMsg = {
 
 function sendJsonMessage(receiver, data) {
     if(typeof data == "string") {
-        console.log("string "+data)
+        console.log("string " + data + "\n")
         receiver.sendUTF(data)
     }
     else {
-        console.log("object ", data)
+        console.log("object ", data, "\n")
         receiver.sendUTF(JSON.stringify(data))
     }
 }
 
 const server = http.createServer((request, result) => { // création du server
     const name = decodeURIComponent(request.url)
-    console.log(name)
+    //console.log(name)
     let path = __dirname+(name)
     let segments = path.split(/\//)
     let lastSegment = segments[segments.length - 1]
@@ -71,6 +71,7 @@ const server = http.createServer((request, result) => { // création du server
                 result.end(disp.send)
             }
             console.table(disp)
+            console.log()
             //fs.readFile(disp.send, {encoding : "utf-8"}, (mistake, datas) =>{
                 //result.end(datas)
             //})
@@ -116,6 +117,7 @@ const server = http.createServer((request, result) => { // création du server
                 }
 
                 console.table(disp)
+                console.log()
                 result.statusCode = disp.code
                 fs.readFile(disp.send, {encoding:'utf8'}, (e, d)=>{
                     result.end(d)
@@ -130,6 +132,7 @@ const server = http.createServer((request, result) => { // création du server
                 type : type
             }
             console.table(disp)
+            console.log()
             result.setHeader("Content-Type", type)
             result.statusCode = disp.code
             result.end(data, "utf8")
@@ -138,7 +141,7 @@ const server = http.createServer((request, result) => { // création du server
 })
 
 server.listen(8894, "" , ()=>{
-    console.log("Bienvenue sur un chat en ligne à l'adresse 'http://192.168.1.25:8894' ( [ctrl] + clic gauche )")
+    console.log("Bienvenue sur un chat en ligne à l'adresse 'http://192.168.1.25:8894' ( [ctrl] + clic gauche )\n")
 })
 
 
@@ -151,10 +154,10 @@ let connections = []
 let pseudos = []
 
 wsServer.on("request", request => {
-    console.log("connection requested.")
+    console.log("connection requested.\n")
     const connection = request.accept(null, request.origin)
     connections.push([connection, null]) // Ajouter la connexion et le pseudo (null pour le moment)
-    console.log("Connect accepted")
+    console.log("Connect accepted\n")
     sendJsonMessage(connection, helloMsg)
 
     connection.on("message", message => {
@@ -168,7 +171,7 @@ wsServer.on("request", request => {
             }
             connections[index][1] = valueObject.value // Mettre à jour le pseudo
             pseudos.push(valueObject.value.toLowerCase())
-            console.log(`Client ${valueObject.value} connected.`)
+            console.log(`Client ${valueObject.value} connected.\n`)
             for (const [conn, pseudo] of connections) {
                 if (pseudo !== null) {
                     sendJsonMessage(conn, { type: "message", value: `${valueObject.value} vient de se connecter.`, from: "server" });
@@ -177,7 +180,7 @@ wsServer.on("request", request => {
         } else {
             for (const [conn, pseudo] of connections) {
                 if (pseudo !== null) {
-                    console.log({ ...valueObject, from: pseudo})
+                    console.log({ ...valueObject, from: pseudo} + "\n")
                     sendJsonMessage(conn, valueObject)
                 }
             }
@@ -188,7 +191,7 @@ wsServer.on("request", request => {
         const index = connections.findIndex(([conn]) => conn === connection)
         const pseudo = connections[index][1]
         connections.splice(index, 1) // Supprimer la connexion de la liste
-        console.log(`Client ${pseudo} disconnected.`)
+        console.log(`Client ${pseudo} disconnected.\n`)
         for (const [conn, pseudo] of connections) {
             if (pseudo !== null) {
                 sendJsonMessage(conn, { type: "message", value: `${pseudo} vient de se déconnecter.`, from: "server" });
