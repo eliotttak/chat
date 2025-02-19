@@ -1,7 +1,6 @@
 const http = require("http")
 const fs = require("fs")
-const ws = require("ws")
-const net = require("net")
+const WebSocketServer = require("websocket").server
 const publicFiles = [
     "/",
     "/images/send-message-click.svg",
@@ -143,30 +142,13 @@ server.listen(8894, "" , ()=>{
 })
 
 
-/*
-
-wsServer = new ws.Server({
-    port: 8894
+wsServer = new WebSocketServer({
+    httpServer: server,
+    autoAcceptConnections: false
 })
-let connections = new Set()
+
+let connections = []
 let pseudos = []
-
-wsServer.on("connection", socket => {
-    console.table(socket)
-})
-
-
-
-
-
-*/
-
-
-
-
-
-
-
 
 wsServer.on("request", request => {
     console.log("connection requested.")
