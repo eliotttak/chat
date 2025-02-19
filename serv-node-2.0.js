@@ -143,7 +143,7 @@ server.listen(8894, "" , ()=>{
 })
 
 
-
+/*
 
 wsServer = new ws.Server({
     port: 8894
@@ -159,6 +159,7 @@ wsServer.on("connection", socket => {
 
 
 
+*/
 
 
 
@@ -167,8 +168,7 @@ wsServer.on("connection", socket => {
 
 
 
-
-/*wsServer.on("request", request => {
+wsServer.on("request", request => {
     console.log("connection requested.")
     const connection = request.accept(null, request.origin)
     connections.push([connection, null]) // Ajouter la connexion et le pseudo (null pour le moment)
@@ -214,4 +214,3 @@ wsServer.on("connection", socket => {
         }
     })
 })
-*/
