@@ -263,6 +263,7 @@ else if (wsVersion === 2) { // The new version which is equivalent to the old on
             )
             const connexion = connexions[connexions.length - 1]
             sendJsonMessage(connexion.wsConnexion, helloMsg)
+
             connexion.wsConnexion.on("message", msg => {
                 const usableMsg = JSON.parse(msg.utf8Data)
                 switch (usableMsg.type) {
@@ -299,6 +300,25 @@ else if (wsVersion === 2) { // The new version which is equivalent to the old on
                             }
                         }
                 }
+            })
+
+            connexion.wsConnexion.on("close", () => {
+                /* 1/ Find the connexion index in the 'connexions' array. */
+                const closedIndex = connexions.findIndex(co => co.wsConnexion === connexion)
+
+                /* 2/ Notify users that le client has logged out. */
+                for (let user of connexions) {
+                    if (user.pseudo !== undefined && connexion.pseudo !== undefined) {
+                        sendJsonMessage(user.wsConnexion, {
+                            type: "messageToClients",
+                            sender: "server",
+                            value: `${connexion.pseudo} vient de se déconnecter`
+                        })
+                    }
+                }
+
+                /* Delete the connexion of the 'connexions' array. */
+                connexions.splice(closedIndex)
             })
         }
     })
