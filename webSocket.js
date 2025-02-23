@@ -1,6 +1,8 @@
-const wst = new WebSocket("ws://192.168.1.25:8894")
+const wst = new WebSocket("ws://" + location.host)
 
-
+const technicalErrors = {
+    userAlreadyFound: 1001
+}
 
 function sendJsonMessage(wskt, data) {
     if (typeof data === "string") {
@@ -13,7 +15,7 @@ function sendJsonMessage(wskt, data) {
 function sendPseudo(valueText) {
     debugger
     const valueObject = {
-        type: "requestPseudo",
+        type: "newPseudo",
         value: valueText
     };
     sendJsonMessage(wst, valueObject)
@@ -25,9 +27,8 @@ function sendMessage() {
     debugger
     const valueText = document.getElementById("inputmessage").value
     const valueObject = {
-        type: "message", 
+        type: "messageToOthers", 
         value: valueText,
-        from: pseudo
     }
     sendJsonMessage(wst, valueObject)
     document.getElementById("inputmessage").value = ""

@@ -48,12 +48,21 @@ wst.addEventListener("open", () => {
 
 wst.addEventListener("message", (evt) => {
     const valueObject = JSON.parse(evt.data)
-    if (valueObject.type === "message") {
-        if(valueObject.from == "server"){
+    console.log(valueObject)
+    if (/messageToClients?/.test(valueObject.type)) {
+        console.log("It's a message to the client(s). Displaying...")
+        if (valueObject.sender == "server"){
             document.getElementById("messages").innerHTML = `<span class="fromServer">${valueObject.value}</span><br/>` + document.getElementById("messages").innerHTML
         }
         else{
-            document.getElementById("messages").innerHTML = `<span class="pseudoLabel">&nbsp;${valueObject.from} </span>&nbsp${valueObject.value}<br/>` + document.getElementById("messages").innerHTML
+            document.getElementById("messages").innerHTML = `<span class="pseudoLabel">&nbsp;${valueObject.sender} </span>&nbsp${valueObject.value}<br/>` + document.getElementById("messages").innerHTML
+        }
+    }
+    else if (valueObject.type === "technicalError") {
+        switch (valueObject.value) {
+            case technicalErrors.userAlreadyFound:
+                alert ("Pseudo déjà utilisé. Rechargement de la page.")
+                location.reload()
         }
     }
 })

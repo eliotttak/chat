@@ -1,27 +1,31 @@
 const http = require("http")
 const fs = require("fs")
-const { verify } = require("crypto")
+//const { verify } = require("crypto")
 const WebSocketServer = require("websocket").server
 const wsVersion = 2
 const httpPort = 8894
 
+const technicalErrors = {
+    userAlreadyFound: 1001
+}
+
 const localIPv4 = (
-    function getIPAddress() {
-        var interfaces = require('os').networkInterfaces();
+    function () {
+        var interfaces = require('os').networkInterfaces()
         for (var devName in interfaces) {
           var iface = interfaces[devName];
       
           for (var i = 0; i < iface.length; i++) {
-            var alias = iface[i];
+            var alias = iface[i]
             if (alias.family === 'IPv4' && alias.address !== '127.0.0.1' && !alias.internal)
-              return alias.address;
+              return alias.address
           }
         }
-        return '0.0.0.0';
+        return '0.0.0.0'
       }
 )()
 
-const randomRange = (min, max) => Math.ceil(Math.random() * (max - min) + min)
+const randomRange = (min, max) => Math.floor(Math.random() * (max - min + 1) + min)
 
 const randomArray = (...values) => values[randomRange(1, values.length) - 1]
 
@@ -31,7 +35,7 @@ const randomString = (strLength) => {
         possibleNumber = randomRange(0, 9)
         possibleUpperCase = String.fromCharCode(randomRange(65, 90))
         possibleLowerCase = String.fromCharCode(randomRange(97, 122))
-        finalRandomString += randomArray(possibleLowerCase, possibleNumber, possibleUpperCase)
+        finalRandomString += randomArray(possibleNumber, possibleLowerCase, possibleUpperCase)
     }
     return finalRandomString
 }
@@ -51,19 +55,19 @@ const publicFiles = [
 ]
 
 const helloMsg = {
-    type: "message",
+    type: "messageToClient",
     value: "Hello !",
-    from: "server"
+    sender: "server"
 }
 
 const deniedPseudoMsg = {
-    type: "message",
-    value: "<img/src/onerror='alert(`Pseudo déja utilisé. Rechargement de la page.`); location.reload()'>",
-    from: "server"
+    type: "technicalError",
+    value: technicalErrors.userAlreadyFound,
+    sender: "server"
 }
 
 function sendJsonMessage(receiver, data) {
-    if(typeof data == "string") {
+    if (typeof data == "string") {
         console.log("string " + data + "\n")
         receiver.sendUTF(data)
     }
@@ -254,9 +258,48 @@ else if (wsVersion === 2) { // The new version which is equivalent to the old on
                 {
                     wsConnexion: request.accept(),
                     pseudo: undefined,
-                    verificationCode: randomString(12)
+                    // verificationCode: randomString(12)
                 }
             )
+            const connexion = connexions[connexions.length - 1]
+            sendJsonMessage(connexion.wsConnexion, helloMsg)
+            connexion.wsConnexion.on("message", msg => {
+                const usableMsg = JSON.parse(msg.utf8Data)
+                switch (usableMsg.type) {
+                    case "newPseudo" :
+                        const verifiedPseudo = usableMsg.value.replaceAll("<", "&lt;").replaceAll("\n", "")
+                        for (let user of connexions) {
+                            if (user.pseudo === verifiedPseudo) { // Check if there is already a user with the same pseudo.
+                                sendJsonMessage(connexion.wsConnexion, deniedPseudoMsg)
+                                return
+                            }
+                        }
+                        connexion.pseudo = connexion.pseudo === undefined ? verifiedPseudo : connexion.pseudo // Modify the pseudo only if it is not saved
+                        console.log(`Client ${connexion.pseudo} connected.`)
+                        for (let user of connexions) {
+                            if (user.pseudo === undefined) {
+                                continue // Don't send anything to the unconnected clients.
+                            }
+                            sendJsonMessage(user.wsConnexion, {
+                                type: "messageToClients",
+                                sender: "server",
+                                value: `${connexion.pseudo} vient de se connecter.`
+                            }
+                            )
+                        }
+                        break
+                    case "messageToOthers" :
+                        for (let user of connexions) {
+                            if (user.pseudo !== undefined) {
+                                sendJsonMessage(user.wsConnexion, {
+                                    type: "messageToClients",
+                                    sender: connexion.pseudo,
+                                    value: usableMsg.value.replaceAll("<", "&lt;").replaceAll("\n", "<br />")
+                                })
+                            }
+                        }
+                }
+            })
         }
     })
 }
