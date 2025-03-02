@@ -25,3 +25,20 @@ border-radius: ${options.bordrad || "5px"}
 
 }
 
+function putErrorUnderTextInput(input, txt = "Veuillez respecter le format", color = "#FF0000") {
+    const width = input.clientWidth
+    const top = input.offsetTop
+    const height = input.clientHeight
+    const left = input.offsetLeft
+
+    let newSpan = document.createElement("span")
+    newSpan.style.position = "absolute"
+    newSpan.style.top = (top + height + 5) + "px"
+    newSpan.style.left = left + "px"
+    newSpan.style.width = width + "px"
+    newSpan.style.backgroundColor = color
+    newSpan.innerHTML = txt
+    input.parentNode.appendChild(newSpan)
+
+    console.log(width, height, top, left)
+}

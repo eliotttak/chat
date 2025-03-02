@@ -39,6 +39,12 @@ document.addEventListener("keydown", evt => {
             console.log("page == 0")
             document.getElementById("okpseudo").click()
         }
+        else if (page === 1) {
+            console.log("page === 1")
+            if (evt.ctrlKey) {
+                document.getElementById("okmessage").click()
+            }
+        }
     }
 })
 
@@ -67,7 +73,7 @@ wst.addEventListener("message", (evt) => {
     }
 })
 
-wst.addEventListener("close", async evt=>{
+wst.addEventListener("close", async evt =>{
     alert(`La connection est perdue.
 La page se rechargera automatiquement 3 sec après que vous ayez cliqué OK.`)
         await pause(3000)

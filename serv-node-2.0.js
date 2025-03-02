@@ -1,29 +1,13 @@
 const http = require("http")
 const fs = require("fs")
-//const { verify } = require("crypto")
 const WebSocketServer = require("websocket").server
 const wsVersion = 2
+const httpVersion = 1
 const httpPort = 8894
 
 const technicalErrors = {
     userAlreadyFound: 1001
 }
-
-const localIPv4 = (
-    function () {
-        var interfaces = require('os').networkInterfaces()
-        for (var devName in interfaces) {
-          var iface = interfaces[devName];
-      
-          for (var i = 0; i < iface.length; i++) {
-            var alias = iface[i]
-            if (alias.family === 'IPv4' && alias.address !== '127.0.0.1' && !alias.internal)
-              return alias.address
-          }
-        }
-        return '0.0.0.0'
-      }
-)()
 
 const randomRange = (min, max) => Math.floor(Math.random() * (max - min + 1) + min)
 
@@ -56,7 +40,7 @@ const publicFiles = [
 
 const helloMsg = {
     type: "messageToClient",
-    value: "Hello !",
+    value: "Salut !",
     sender: "server"
 }
 
@@ -77,7 +61,24 @@ function sendJsonMessage(receiver, data) {
     }
 }
 
-const server = http.createServer((request, result) => { // création du server
+const localIPv4 = (
+    function () {
+        var interfaces = require('os').networkInterfaces()
+        for (var devName in interfaces) {
+          var iface = interfaces[devName];
+      
+          for (var i = 0; i < iface.length; i++) {
+            var alias = iface[i]
+            if (alias.family === 'IPv4' && alias.address !== '127.0.0.1' && !alias.internal)
+              return alias.address
+          }
+        }
+        return '0.0.0.0'
+      }
+)()
+
+
+const server = http.createServer((request, result) => { // HTTP server creating...
     const name = decodeURIComponent(request.url)
     //console.log(name)
     let path = __dirname+(name)
@@ -158,7 +159,7 @@ const server = http.createServer((request, result) => { // création du server
                 console.table(disp)
                 console.log()
                 result.statusCode = disp.code
-                fs.readFile(disp.send, {encoding:'utf8'}, (e, d)=>{
+                fs.readFile(disp.send, {encoding:'utf8'}, (error, d)=>{
                     result.end(d)
                 })
                 return
@@ -190,7 +191,10 @@ wsServer = new WebSocketServer({
 
 })
 
-let connexions = []
+let connexions = [/*{
+    wsConnexion: null,
+    pseudo: "server"
+}*/]
 
 if (wsVersion === 1) { // The old version that needs to be reworked
 
@@ -246,7 +250,7 @@ if (wsVersion === 1) { // The old version that needs to be reworked
 else if (wsVersion === 2) { // The new version which is equivalent to the old one, but reworked.
 
     wsServer.on("request", request => {
-        console.log(`A connexion was requested by a ${request.origin}'s client.\nWe are verifying that this is a correct URL (the correct URLs are 'http://localhost:${httpPort}' and 'http://${localIPv4}:${httpPort}')...\n`)
+        console.log(`A connexion was requested by a ${request.origin}'s client.\nWe are verifying that this is a correct URL (the correct URLs are 'http(s)://localhost:${httpPort}' and 'http(s)://${localIPv4}:${httpPort}')...\n`)
         if (! new RegExp("https?:\/\/(localhost|" + localIPv4.replaceAll(".", "\.") + "):" + httpPort).test(request.origin)) {
             console.log("The URL is not correct. The request is rejected.\n")
             request.reject()
@@ -323,3 +327,5 @@ else if (wsVersion === 2) { // The new version which is equivalent to the old on
         }
     })
 }
+
+setInterval(()=>{console.table(connexions)}, 10000)
