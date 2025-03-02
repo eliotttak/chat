@@ -1,5 +1,6 @@
 const http = require("http")
 const fs = require("fs")
+const colors = require("colors/safe")
 const WebSocketServer = require("websocket").server
 const wsVersion = 2
 const httpVersion = 1
@@ -51,30 +52,46 @@ const deniedPseudoMsg = {
 }
 
 function sendJsonMessage(receiver, data) {
+    const pseudo = connexions[connexions.findConnexionIndex(receiver)].pseudo
     if (typeof data == "string") {
-        console.log("string " + data + "\n")
+        try {
+            const dataAsObj = JSON.parse(data)
+            console.log(`The client '${dispPseudo(pseudo)}' will receive a JSON with this content :`)
+            for (key in dataAsObj) {
+                console.log(`    - ${key} : `)
+            }
+            
+        }
+        catch {}
         receiver.sendUTF(data)
     }
     else {
-        console.log("object ", data, "\n")
+        console.log(pseudo, "object ", data, "\n")
         receiver.sendUTF(JSON.stringify(data))
     }
 }
+
+const dispPseudo = pseudo => colors.blue(pseudo)
+const dispMessage = message => colors.cyan(message)
+const dispURL = url => colors.yellow(colors.underline(url))
+
+console.log("Légende :", dispPseudo("pseudo"), dispMessage("message"), dispURL("URL"))
 
 const localIPv4 = (
     function () {
         var interfaces = require('os').networkInterfaces()
         for (var devName in interfaces) {
-          var iface = interfaces[devName];
+            var iface = interfaces[devName];
       
-          for (var i = 0; i < iface.length; i++) {
-            var alias = iface[i]
-            if (alias.family === 'IPv4' && alias.address !== '127.0.0.1' && !alias.internal)
-              return alias.address
-          }
+            for (var i = 0; i < iface.length; i++) {
+                var alias = iface[i]
+                if (alias.family === 'IPv4' && alias.address !== '127.0.0.1' && !alias.internal) {
+                    return alias.address
+                }
+            }
         }
         return '0.0.0.0'
-      }
+    }
 )()
 
 
@@ -181,7 +198,7 @@ const server = http.createServer((request, result) => { // HTTP server creating.
 })
 
 server.listen(httpPort, "" , ()=>{
-    console.log(`Bienvenue sur un chat en ligne à l'adresse 'http://${localIPv4}:${httpPort}' ( [ctrl] + clic gauche )\n`)
+    console.log(`Bienvenue sur un chat en ligne à l'adresse '${dispURL(`http://${localIPv4}:${httpPort}`)}' ( [ctrl] + clic gauche )\n`)
 })
 
 
@@ -191,10 +208,15 @@ wsServer = new WebSocketServer({
 
 })
 
-let connexions = [/*{
-    wsConnexion: null,
-    pseudo: "server"
-}*/]
+let connexions = []
+connexions.findConnexionIndex = co => connexions.findIndex(
+    c => (
+        co === c
+    ) || (
+        co === c.wsConnexion
+    )
+)
+
 
 if (wsVersion === 1) { // The old version that needs to be reworked
 
@@ -262,6 +284,7 @@ else if (wsVersion === 2) { // The new version which is equivalent to the old on
                 {
                     wsConnexion: request.accept(),
                     pseudo: undefined,
+                    numberOfIncorrectMsgs: 0
                     // verificationCode: randomString(12)
                 }
             )
@@ -308,7 +331,7 @@ else if (wsVersion === 2) { // The new version which is equivalent to the old on
 
             connexion.wsConnexion.on("close", () => {
                 /* 1/ Find the connexion index in the 'connexions' array. */
-                const closedIndex = connexions.findIndex(co => co.wsConnexion === connexion)
+                const closedIndex = connexions.findConnexionIndex(connexion)
 
                 /* 2/ Notify users that le client has logged out. */
                 for (let user of connexions) {
