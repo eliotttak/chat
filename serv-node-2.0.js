@@ -3,7 +3,7 @@ const fs = require("fs")
 const colors = require("colors/safe")
 const WebSocketServer = require("websocket").server
 const wsVersion = 2
-const httpVersion = 1
+//const httpVersion = 1
 const httpPort = 8894
 
 const technicalErrors = {
