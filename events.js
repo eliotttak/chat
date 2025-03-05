@@ -16,12 +16,12 @@ okpseudo.addEventListener("click", () => {
     sendPseudo(pseudo)
     console.log("Le pseudo de l'utilisateur est : "+pseudo)
 
-    // Appel AJAX de la nouvelle page, afin de garder le même JavaScript (et les mêmes variables)
-    let xhr = new XMLHttpRequest()                          // Créer une instance de 'XMLHttpRequest'
-    xhr.open("GET", "loggedInPage-onlyIdContent.html")      // On demande la page 'loggedInPage-onlyIdContent.html' en GET
-    xhr.responseType = "text"                               // Le format de la réponse doit être un fichier texte
-    xhr.send()                                              // Envoyer la réponse
-    xhr.onload = function(){                                // Executé quand on reçoit la réponse
+    // New page AJAX call, for keep the same JavaScript (and the same variables)
+    let xhr = new XMLHttpRequest()                          // Create an 'XMLHttpRequest' instance
+    xhr.open("GET", "loggedInPage-onlyIdContent.html")      // Request the HTML file named 'loggedInPage-onlyIdContent.html' with a GET protocol
+    xhr.responseType = "text"                               // The response format must be a text file (HTML is text)
+    xhr.send()                                              // Send the request
+    xhr.onload = function(){                                // This code will be executed when the response is received
         console.log(xhr.response)
         console.log(xhr.response.length + " octets  téléchargés\n")
         document.getElementById("content").innerHTML = xhr.response
@@ -57,10 +57,10 @@ wst.addEventListener("message", (evt) => {
     console.log(valueObject)
     if (/messageToClients?/.test(valueObject.type)) {
         console.log("It's a message to the client(s). Displaying...")
-        if (valueObject.sender == "server"){
+        if (valueObject.sender == "server") {
             document.getElementById("messages").innerHTML = `<span class="fromServer">${valueObject.value}</span><br/>` + document.getElementById("messages").innerHTML
         }
-        else{
+        else {
             document.getElementById("messages").innerHTML = `<span class="pseudoLabel">&nbsp;${valueObject.sender} </span>&nbsp${valueObject.value}<br/>` + document.getElementById("messages").innerHTML
         }
     }
