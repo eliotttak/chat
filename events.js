@@ -14,21 +14,7 @@ okpseudo.addEventListener("click", () => {
         return
     }
     sendPseudo(pseudo)
-    console.log("Le pseudo de l'utilisateur est : "+pseudo)
-
-    // New page AJAX call, for keep the same JavaScript (and the same variables)
-    let xhr = new XMLHttpRequest()                          // Create an 'XMLHttpRequest' instance
-    xhr.open("GET", "loggedInPage-onlyIdContent.html")      // Request the HTML file named 'loggedInPage-onlyIdContent.html' with a GET protocol
-    xhr.responseType = "text"                               // The response format must be a text file (HTML is text)
-    xhr.send()                                              // Send the request
-    xhr.onload = function(){                                // This code will be executed when the response is received
-        console.log(xhr.response)
-        console.log(xhr.response.length + " octets  téléchargés\n")
-        document.getElementById("content").innerHTML = xhr.response
-        document.getElementById("titlePseudo").innerHTML += pseudo
-        document.getElementById("okmessage").addEventListener("click", sendMessage)
-        page = 1
-    }
+    
 })
 
 document.addEventListener("keydown", evt => {
@@ -66,9 +52,30 @@ wst.addEventListener("message", (evt) => {
     }
     else if (valueObject.type === "technicalError") {
         switch (valueObject.value) {
-            case technicalErrors.userAlreadyFound:
+            case technicalMessages.fromServer.errors.userAlreadyFound:
                 putErrorUnderTextInput(document.getElementById("inputpseudo"), "Ce pseudo déjà utilisé.")
                 location.reload()
+        }
+    }
+    else if (valueObject.type === "technicalMsg") {
+        switch (valueObject.value) {
+            case technicalMessages.fromServer.messages.userNotAlreadyFound:
+
+                console.log("Le pseudo de l'utilisateur est : "+pseudo)
+
+                // New page AJAX call, for keep the same JavaScript (and the same variables)
+                let xhr = new XMLHttpRequest()                          // Create an 'XMLHttpRequest' instance
+                xhr.open("GET", "loggedInPage-onlyIdContent.html")      // Request the HTML file named 'loggedInPage-onlyIdContent.html' with a GET protocol
+                xhr.responseType = "text"                               // The response format must be a text file (HTML is text)
+                xhr.send()                                              // Send the request
+                xhr.onload = function(){                                // This code will be executed when the response is received
+                    console.log(xhr.response)
+                    console.log(xhr.response.length + " octets  téléchargés\n")
+                    document.getElementById("content").innerHTML = xhr.response
+                    document.getElementById("titlePseudo").innerHTML += pseudo
+                    document.getElementById("okmessage").addEventListener("click", sendMessage)
+                    page = 1
+                }
         }
     }
 })

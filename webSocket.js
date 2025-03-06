@@ -9,9 +9,6 @@ const technicalMessages = {
             userNotAlreadyFound: 1000
         }
     },
-    fromClient: {
-        askForPseudo: 501
-    }
 }
 
 function sendJsonMessage(wskt, data) {
