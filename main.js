@@ -1,6 +1,7 @@
 let okpseudo = document.getElementById("okpseudo")
 let pseudo
 let page = 0  
+let canValidPseudo;
 
 async function pause(time) {
     return new Promise(resolve => setTimeout(resolve, time));
@@ -34,9 +35,10 @@ function putErrorUnderTextInput(input, txt = "Veuillez respecter le format", col
     let newSpan = document.createElement("span")
     newSpan.style.position = "absolute"
     newSpan.style.top = (top + height + 5) + "px"
-    newSpan.style.left = left + "px"
+    newSpan.style.left = (left + 5) + "px"
     newSpan.style.width = width + "px"
-    newSpan.style.backgroundColor = color
+    newSpan.style.color = color
+    newSpan.style.fontSize = "15px"
     newSpan.innerHTML = txt
     input.parentNode.appendChild(newSpan)
 

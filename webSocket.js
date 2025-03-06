@@ -1,7 +1,17 @@
 const wst = new WebSocket("ws://" + location.host)
 
-const technicalErrors = {
-    userAlreadyFound: 1001
+const technicalMessages = {
+    fromServer: {
+        errors: {
+            userAlreadyFound: 1001
+        },
+        messages: {
+            userNotAlreadyFound: 1000
+        }
+    },
+    fromClient: {
+        askForPseudo: 501
+    }
 }
 
 function sendJsonMessage(wskt, data) {

@@ -58,16 +58,16 @@ wst.addEventListener("message", (evt) => {
     if (/messageToClients?/.test(valueObject.type)) {
         console.log("It's a message to the client(s). Displaying...")
         if (valueObject.sender == "server") {
-            document.getElementById("messages").innerHTML = `<span class="fromServer">${valueObject.value}</span><br/>` + document.getElementById("messages").innerHTML
+            document.getElementById("messages").innerHTML += `<span class="fromServer">${valueObject.value}</span><br/>`
         }
         else {
-            document.getElementById("messages").innerHTML = `<span class="pseudoLabel">&nbsp;${valueObject.sender} </span>&nbsp${valueObject.value}<br/>` + document.getElementById("messages").innerHTML
+            document.getElementById("messages").innerHTML += `<span class="pseudoLabel">&nbsp;${valueObject.sender} </span>&nbsp${valueObject.value}<br/>` + document.getElementById("messages")
         }
     }
     else if (valueObject.type === "technicalError") {
         switch (valueObject.value) {
             case technicalErrors.userAlreadyFound:
-                alert ("Pseudo déjà utilisé. Rechargement de la page.")
+                putErrorUnderTextInput(document.getElementById("inputpseudo"), "Ce pseudo déjà utilisé.")
                 location.reload()
         }
     }
