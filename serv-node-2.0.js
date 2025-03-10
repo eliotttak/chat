@@ -43,7 +43,9 @@ const publicFiles = [
     "/main.js",
     "/style.css",
     "/webSocket.js",
-    "/images/403 error.png"
+    "/images/403 error.png",
+    "/jquery.min.js",
+    "/Arial/arial.ttf"
 ]
 
 const helloMsg = {
@@ -181,6 +183,8 @@ const server = http.createServer((request, result) => { // HTTP server creating.
                 case "svg":
                     type = "image/svg+xml"
                     break
+                default:
+                    type = "unknown/unknown"
             }
             if (!(publicFiles.includes(name))){
                 let disp = {
