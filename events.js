@@ -1,20 +1,14 @@
-window.addEventListener("beforeunload", function (event) {
+window.addEventListener("beforeunload", function (e) {
     disconnect(wst)
 });
 
-
-okpseudo.addEventListener("click", () => {
-    pseudo = document.getElementById("inputpseudo").value
+idOkpseudo.on("click", e => {
+    pseudo = idInputpseudo.val()
     if (/^\s*$/.test(pseudo)) {
-        alert("Votre pseudo est vide ou ne contient que des espaces. Merci de recommencer.")
-        return
-    }
-    if (pseudo == "server") {
-        alert("Désolé, ce pseudo est indisponible.")
+        putErrorUnderTextInput(idInputpseudo, "Votre pseudo est vide ou ne contient que des espaces. Merci de recommencer.")
         return
     }
     sendPseudo(pseudo)
-    
 })
 
 document.addEventListener("keydown", evt => {
@@ -47,7 +41,7 @@ wst.addEventListener("message", (evt) => {
             document.getElementById("messages").innerHTML += `<span class="fromServer">${valueObject.value}</span><br/>`
         }
         else {
-            document.getElementById("messages").innerHTML += `<span class="pseudoLabel">&nbsp;${valueObject.sender} </span>&nbsp${valueObject.value}<br/>` + document.getElementById("messages")
+            document.getElementById("messages").innerHTML += `<span class="pseudoLabel">&nbsp;${valueObject.sender} </span>&nbsp${valueObject.value}<br/>`
         }
     }
     else if (valueObject.type === "technicalError") {

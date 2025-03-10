@@ -1,3 +1,48 @@
+html {
+    font-family: Arial;
+}
+
+@keyframes showBorder {
+    from  {
+        border-top: none;
+        border-left: none;
+        border-right: none;
+        border-bottom: solid black 2px;
+    }
+
+    to {
+        border-top: none;
+        border-left: solid black 2px;
+        border-right: solid black 2px;
+        border-bottom: solid black 2px;
+    }
+}
+
+#inputpseudo {
+    width: 500px;
+    height: 25px;
+    font-size: medium;
+    border-top: none;
+    border-left: none;
+    border-right: none;
+    border-bottom: solid black 2px;
+}
+
+#inputpseudo:focus {
+    animation: showBorder 3s ;
+    outline: none;
+    appearance: unset;
+    border-radius: 6.25px;
+    border: solid 2px black;
+    border-top: none;
+    background-position: center center;
+}
+
+#okpseudo {
+    height: 25px;
+    font-size: medium;
+}
+
 #okmessage {
     border: none;
     left: 5px;
@@ -13,5 +58,12 @@
 .pseudoLabel {
     border-radius:3px;
     background-color:#e0e0e0;
-    color:#404040
+    color:#404040;
+    font-family: Arial;
 }
+
+@font-face {
+    font-family: Arial;
+    src: url(/Arial/arial.ttf);
+}
+
