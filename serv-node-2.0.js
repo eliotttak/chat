@@ -268,7 +268,7 @@ wsServer.on("request", request => {
                     case "newPseudo" :
                         const verifiedPseudo = usableMsg.value.replaceAll("<", "&lt;").replaceAll("\n", "")
                         for (let user of connections) {
-                            if (user.pseudo === verifiedPseudo) { // Check if there is already a user with the same pseudo.
+                            if (user.pseudo === verifiedPseudo || verifiedPseudo === "server") { // Check if there is already a user with the same pseudo.
                                 sendJsonMessage(connection.wsConnection, deniedPseudoMsg)
                                 return
                             }

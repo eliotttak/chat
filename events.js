@@ -1,4 +1,5 @@
 window.addEventListener("beforeunload", function (e) {
+    dontSendUnconnectNotifs = true
     disconnect(wst)
 });
 
@@ -47,8 +48,12 @@ wst.addEventListener("message", (evt) => {
     else if (valueObject.type === "technicalError") {
         switch (valueObject.value) {
             case technicalMessages.fromServer.errors.userAlreadyFound:
-                putErrorUnderTextInput(document.getElementById("inputpseudo"), "Ce pseudo déjà utilisé.")
-                location.reload()
+                inputError = putErrorUnderTextInput($("#inputpseudo"), "Ce pseudo déjà utilisé.")
+                $("#inputpseudo").val("")
+                setTimeout(() => {
+                    inputError.remove()
+                }, 5000)
+                break
         }
     }
     else if (valueObject.type === "technicalMsg") {
@@ -70,13 +75,18 @@ wst.addEventListener("message", (evt) => {
                     document.getElementById("okmessage").addEventListener("click", sendMessage)
                     page = 1
                 }
+                break
+            
         }
     }
 })
 
-wst.addEventListener("close", async evt =>{
-    alert(`La connection est perdue.
+wst.addEventListener("close", async evt => {
+    if (! dontSendUnconnectNotifs) {
+        
+        alert(`La connection est perdue.
 La page se rechargera automatiquement 3 sec après que vous ayez cliqué OK.`)
-        await pause(3000)
-        location.reload()
+            await pause(3000)
+            location.reload()
+    }
 })

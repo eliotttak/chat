@@ -2,39 +2,21 @@ html {
     font-family: Arial;
 }
 
-@keyframes showBorder {
-    from  {
-        border-top: none;
-        border-left: none;
-        border-right: none;
-        border-bottom: solid black 2px;
-    }
-
-    to {
-        border-top: none;
-        border-left: solid black 2px;
-        border-right: solid black 2px;
-        border-bottom: solid black 2px;
-    }
-}
-
-#inputpseudo {
+#inputpseudo { 
     width: 500px;
     height: 25px;
     font-size: medium;
     border-top: none;
     border-left: none;
     border-right: none;
-    border-bottom: solid black 2px;
+    border-bottom: solid grey 2px;
 }
 
 #inputpseudo:focus {
-    animation: showBorder 3s ;
     outline: none;
     appearance: unset;
     border-radius: 6.25px;
     border: solid 2px black;
-    border-top: none;
     background-position: center center;
 }
 
