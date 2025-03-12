@@ -184,7 +184,7 @@ const server = http.createServer((request, result) => { // HTTP server creating.
                     type = "image/svg+xml"
                     break
                 default:
-                    type = "unknown/unknown"
+                    type = "font/ttf"
             }
             if (!(publicFiles.includes(name))){
                 let disp = {
