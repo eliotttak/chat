@@ -4,6 +4,8 @@ let pseudo // The user's pseudo
 let page = 0 // The page number : 0 is the first page where the user must input his/her pseudo, and 1 is the messages page.
 let dontSendUnconnectNotifs = false
 let inputError
+
+console.log($)
 async function pause(time) {
     return new Promise(resolve => setTimeout(resolve, time))
 }
@@ -27,16 +29,22 @@ border-radius: ${options.bordrad || "5px"}
 
 }
 
-function putErrorUnderTextInput(input, txt = "Veuillez respecter le format", color = "#FF0000") {
+function putErrorUnderTextInput(input, settings = {}) {
     debugger
+
+    const txt = settings.txt || "Veuillez respecter le format"
+    const color = settings.color || "#FF0000"
+    const showTime = settings.showTime || Infinity
+
     const width = input.width()
     const top = input.offset().top
     const height = input.height()
     const left = input.offset().left
+    const date = new Date().getTime()  // The actual time will be in the new span's ID
 
-    input.parent().append('<span id="error-under-input"></span>')
-    let newSpan = $("#error-under-input")
-    newSpan.attr("id", "")
+    input.parent().append(`<span id="error-under-input-${date}"></span>`)
+    let newSpan = $(`#error-under-input-${date}`)
+    //newSpan.attr("id", "")
     newSpan.css("position", "absolute")
     newSpan.css("top", (top + height + 5) + "px")
     newSpan.css("left", (left + 5) + "px")
@@ -45,5 +53,11 @@ function putErrorUnderTextInput(input, txt = "Veuillez respecter le format", col
     newSpan.css("font-size", "15px")
     newSpan.html(txt)
 
-    return newSpan
+    if (showTime !== Infinity) {
+        setTimeout(() => {
+            newSpan.remove()
+        }, showTime)
+    }
+    
+    return {newSpan, date}
 }   
