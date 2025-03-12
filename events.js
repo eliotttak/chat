@@ -6,10 +6,21 @@ window.addEventListener("beforeunload", function (e) {
 idOkpseudo.on("click", e => {
     pseudo = idInputpseudo.val()
     if (/^\s*$/.test(pseudo)) {
-        putErrorUnderTextInput(idInputpseudo, "Votre pseudo est vide ou ne contient que des espaces. Merci de recommencer.")
+        putErrorUnderTextInput(idInputpseudo, {
+            txt: "Votre pseudo est vide ou ne contient que des espaces. Merci de recommencer.",
+            showTime: 5000
+        })
         return
     }
     sendPseudo(pseudo)
+})
+
+idInputpseudo.on("input", evt => {
+    let value = idInputpseudo.val()
+    if (value[value.length - 1] == " ") {
+        idInputpseudo.val(value.substr(0, value.length - 1))
+    }
+    
 })
 
 document.addEventListener("keydown", evt => {
@@ -48,11 +59,11 @@ wst.addEventListener("message", (evt) => {
     else if (valueObject.type === "technicalError") {
         switch (valueObject.value) {
             case technicalMessages.fromServer.errors.userAlreadyFound:
-                inputError = putErrorUnderTextInput($("#inputpseudo"), "Ce pseudo déjà utilisé.")
+                inputError = putErrorUnderTextInput(idInputpseudo, {
+                    txt: "Ce pseudo déjà utilisé. Merci de recommencer.",
+                    showTime: 5000
+        }       )
                 $("#inputpseudo").val("")
-                setTimeout(() => {
-                    inputError.remove()
-                }, 5000)
                 break
         }
     }
