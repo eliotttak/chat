@@ -42,8 +42,14 @@ function putErrorUnderTextInput(input, settings = {}) {
     const left = input.offset().left
     const date = new Date().getTime()  // The actual time will be in the new span's ID
 
+<<<<<<< HEAD
+    
+    input.parent().append(`<span id="error-under-input-${input.attr("id")}"></span>`)
+    let newSpan = $(`#error-under-input-${input.attr("id")}`)
+=======
     input.parent().append(`<span id="error-under-input-${date}"></span>`)
     let newSpan = $(`#error-under-input-${date}`)
+>>>>>>> 8da80e4 (Améliorer la function putErrorUnderInput() et interdire les ' ' dans le nom du pseudo)
     //newSpan.attr("id", "")
     newSpan.css("position", "absolute")
     newSpan.css("top", (top + height + 5) + "px")
