@@ -20,7 +20,9 @@ function sendJsonMessage(wskt, data) {
 }
 
 function sendPseudo(valueText) {
-    //debugger
+    if (debug == true) {
+        debugger
+    }   
     const valueObject = {
         type: "newPseudo",
         value: valueText
@@ -31,7 +33,9 @@ function sendPseudo(valueText) {
 }
 
 function sendMessage() {
-    //debugger
+    if (debug == true) {
+        debugger
+    }
     const valueText = document.getElementById("inputmessage").value
     const valueObject = {
         type: "messageToOthers", 
