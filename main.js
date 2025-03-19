@@ -4,6 +4,7 @@ let pseudo // The user's pseudo
 let page = 0 // The page number : 0 is the first page where the user must input his/her pseudo, and 1 is the messages page.
 let dontSendUnconnectNotifs = false
 let inputError
+let debug = /debug=true/.test(location.search)
 
 console.log($)
 async function pause(time) {
@@ -27,10 +28,12 @@ border-radius: ${options.bordrad || "5px"}
     divNotif.appendChild(spanContent)
     document.body.appendChild(divNotif)
 
-}
+}  
 
 function putErrorUnderTextInput(input, settings = {}) {
-    debugger
+    if (debug == true) {
+        debugger
+    }
 
     const txt = settings.txt || "Veuillez respecter le format"
     const color = settings.color || "#FF0000"
@@ -42,8 +45,9 @@ function putErrorUnderTextInput(input, settings = {}) {
     const left = input.offset().left
     const date = new Date().getTime()  // The actual time will be in the new span's ID
 
-    input.parent().append(`<span id="error-under-input-${date}"></span>`)
-    let newSpan = $(`#error-under-input-${date}`)
+    
+    input.parent().append(`<span id="error-under-input-${input.attr("id")}"></span>`)
+    let newSpan = $(`#error-under-input-${input.attr("id")}`)
     //newSpan.attr("id", "")
     newSpan.css("position", "absolute")
     newSpan.css("top", (top + height + 5) + "px")
