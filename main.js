@@ -28,7 +28,7 @@ border-radius: ${options.bordrad || "5px"}
     divNotif.appendChild(spanContent)
     document.body.appendChild(divNotif)
 
-}
+}  
 
 function putErrorUnderTextInput(input, settings = {}) {
     if (debug == true) {
