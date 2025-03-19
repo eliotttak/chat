@@ -117,7 +117,7 @@ const localIPv4 = (
 
 
 const server = http.createServer((request, result) => { // HTTP server creating...
-    const name = decodeURIComponent(request.url).replace(/[\?#].*/, "")
+    const name = decodeURIComponent(request.url)
     //console.log(name)
     let path = __dirname+(name)
     let segments = path.split(/\//)

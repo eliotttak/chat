@@ -67,10 +67,10 @@ wst.addEventListener("message", (evt) => {
     if (/messageToClients?/.test(valueObject.type)) {
         console.log("It's a message to the client(s). Displaying...")
         if (valueObject.sender == "server") {
-            document.getElementById("messages").innerHTML += `<span class="fromServer">${valueObject.value}</span><br/>`
+            document.getElementById("messages").innerHTML += `<span class="fromServer">${valueObject.value}</span><br/><br />`
         }
         else {
-            document.getElementById("messages").innerHTML += `<span class="pseudoLabel">&nbsp;${valueObject.sender} </span>&nbsp${valueObject.value}<br/>`
+            document.getElementById("messages").innerHTML += `<span class="pseudoLabel">&nbsp;${valueObject.sender} </span>&nbsp;<span class="message">${valueObject.value}</span><br/><br />`
         }
     }
     else if (valueObject.type === "technicalError") {
