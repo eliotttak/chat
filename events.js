@@ -17,9 +17,7 @@ idOkpseudo.on("click", e => {
 
 idInputpseudo.on("input", evt => {
     let value = idInputpseudo.val()
-<<<<<<< HEAD
     if (new RegExp(`[^-\._A-Za-z0-9À-ÖÙ-ÿ]`).test(value[value.length - 1])) {
-        alert()
         putErrorUnderTextInput(idInputpseudo, {
             txt: `Le caractère <span style="color: #FF0000;">${value[value.length - 1] === " " ? "Espace" : (value[value.length - 1] === "\t" ? "Tabulation" : (value[value.length - 1] === "\n" ? "Saut de ligne" : value[value.length - 1]))}</span> n'est pas autorisé.`,
             color: "#000000",
@@ -39,12 +37,6 @@ idInputpseudo.on("input", evt => {
             
         }
     }
-=======
-    if (value[value.length - 1] == " ") {
-        idInputpseudo.val(value.substr(0, value.length - 1))
-    }
-    
->>>>>>> 8da80e4 (Améliorer la function putErrorUnderInput() et interdire les ' ' dans le nom du pseudo)
 })
 
 document.addEventListener("keydown", evt => {
