@@ -9,7 +9,8 @@ const httpPort = 8894
 const technicalMessages = {
     fromServer: {
         errors: {
-            userAlreadyFound: 1001
+            userAlreadyFound: 1001,
+            incorrectPseudo: 1002
         },
         messages: {
             userNotAlreadyFound: 1000
@@ -57,6 +58,12 @@ const helloMsg = {
 const deniedPseudoMsg = {
     type: "technicalError",
     value: technicalMessages.fromServer.errors.userAlreadyFound,
+    sender: "server"
+}
+
+const incorrectPseudoMsg = {
+    type: "technicalError",
+    value: technicalMessages.fromServer.errors.incorrectPseudo,
     sender: "server"
 }
 
@@ -267,6 +274,12 @@ wsServer.on("request", request => {
                 switch (usableMsg.type) {
                     case "newPseudo" :
                         const verifiedPseudo = usableMsg.value.replaceAll("<", "&lt;").replaceAll("\n", "")
+
+                        if (/[^-\._A-Za-z0-9À-ÖÙ-ÿ]/.test(verifiedPseudo)) {
+                            sendJsonMessage(connection.wsConnection, incorrectPseudoMsg)
+                            return
+                        }
+
                         for (let user of connections) {
                             if (user.pseudo === verifiedPseudo || verifiedPseudo === "server") { // Check if there is already a user with the same pseudo.
                                 sendJsonMessage(connection.wsConnection, deniedPseudoMsg)

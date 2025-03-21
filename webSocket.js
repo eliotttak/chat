@@ -3,7 +3,8 @@ const wst = new WebSocket("ws://" + location.host)
 const technicalMessages = {
     fromServer: {
         errors: {
-            userAlreadyFound: 1001
+            userAlreadyFound: 1001,
+            incorrectPseudo: 1002
         },
         messages: {
             userNotAlreadyFound: 1000

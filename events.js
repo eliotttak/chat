@@ -17,7 +17,7 @@ idOkpseudo.on("click", e => {
 
 idInputpseudo.on("input", evt => {
     let value = idInputpseudo.val()
-    if (new RegExp(`[^-\._A-Za-z0-9À-ÖÙ-ÿ]`).test(value[value.length - 1])) {
+    if (/[^-\._A-Za-z0-9À-ÖÙ-ÿ]/.test(value[value.length - 1])) {
         putErrorUnderTextInput(idInputpseudo, {
             txt: `Le caractère <span style="color: #FF0000;">${value[value.length - 1] === " " ? "Espace" : (value[value.length - 1] === "\t" ? "Tabulation" : (value[value.length - 1] === "\n" ? "Saut de ligne" : value[value.length - 1]))}</span> n'est pas autorisé.`,
             color: "#000000",
@@ -76,11 +76,19 @@ wst.addEventListener("message", (evt) => {
     else if (valueObject.type === "technicalError") {
         switch (valueObject.value) {
             case technicalMessages.fromServer.errors.userAlreadyFound:
-                inputError = putErrorUnderTextInput(idInputpseudo, {
+                putErrorUnderTextInput(idInputpseudo, {
                     txt: "Ce pseudo déjà utilisé. Merci de recommencer.",
                     showTime: 5000
         }       )
-                $("#inputpseudo").val("")
+                idInputpseudo.val("")
+                break
+            case technicalMessages.fromServer.errors.incorrectPseudo:
+                putErrorUnderTextInput(idInputpseudo, {
+                    txt: "Ce pseudo est incorrect. Merci de recommencer.",
+                    showTime: 5000
+                })
+                console.log("%cCe pseudo est incorrect. Merci de recommencer.", "color: red; font-weight: bold; font-size: large")
+                idInputpseudo.val("")
                 break
         }
     }
