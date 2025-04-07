@@ -42,8 +42,7 @@ function putErrorUnderTextInput(input, settings = {}) {
     const width = input.width()
     const top = input.offset().top
     const height = input.height()
-    const left = input.offset().left
-    const date = new Date().getTime()  // The actual time will be in the new span's ID
+        const left = input.offset().left
 
     
     input.parent().append(`<span id="error-under-input-${input.attr("id")}"></span>`)

@@ -249,8 +249,8 @@ connections.findConnectionIndex = co => connections.findIndex(
 
 
 wsServer.on("request", request => {
-    console.log(`A connection was requested by a ${dispURL(request.origin)}'s client.\nWe are verifying that this is a correct URL (the correct URLs are '${dispURL(`http(s)://localhost:${httpPort}`)}' and '${dispURL(`http(s)://${localIPv4}:${httpPort}`)}')...\n`)
-    if (! new RegExp("https?:\/\/(localhost|" + localIPv4.replaceAll(".", "\.") + "):" + httpPort).test(request.origin)) {
+    console.log(`A connection was requested by a ${dispURL(request.origin)}'s client.\nWe are verifying that this is a correct URL (the correct URLs are '${dispURL(`http(s)://localhost:${httpPort}`)}', '${dispURL(`http(s)://${localIPv4}:${httpPort}`)}') and ${dispURL(`http(s)://chat-8518.onrender.com`)}...\n`)
+    if (! new RegExp("https?:\/\/((localhost|" + localIPv4.replaceAll(".", "\.") + "):" + httpPort + "|chat\-8518\.onrender\.com)").test(request.origin)) {
         console.log("The URL is not correct. The request is rejected.\n")
         request.reject()
         return
