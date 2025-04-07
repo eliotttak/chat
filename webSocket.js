@@ -1,4 +1,15 @@
-const wst = new WebSocket("ws://" + location.host)
+const websocket = require("websocket")
+
+let tempWst
+
+try {
+    tempWst = new WebSocket("ws://" + location.host)
+}
+catch {
+    tempWst = new WebSocket("wss://chat-8518.onrender.com/")
+}
+
+const wst = tempWst
 
 const technicalMessages = {
     fromServer: {
