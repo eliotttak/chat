@@ -4,7 +4,12 @@ try {
     tempWst = new WebSocket("ws://" + location.host)
 }
 catch {
-    tempWst = new WebSocket("wss://chat-8518.onrender.com/")
+    try {
+        tempWst = new WebSocket("wss://chat-8518.onrender.com/")
+    }
+    catch {
+        tempWst = new WebSocket("wss://echat.up.railway.app/")
+    }
 }
 
 const wst = tempWst
