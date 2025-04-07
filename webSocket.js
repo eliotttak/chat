@@ -1,5 +1,3 @@
-const websocket = require("websocket")
-
 let tempWst
 
 try {
