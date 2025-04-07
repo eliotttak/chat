@@ -70,7 +70,7 @@ wst.addEventListener("message", (evt) => {
             document.getElementById("messages").innerHTML += `<span class="fromServer">${valueObject.value}</span><br/><br />`
         }
         else {
-            document.getElementById("messages").innerHTML += `<span class="pseudoLabel">&nbsp;${valueObject.sender} </span>&nbsp;<span class="message">&nbsp;${valueObject.value}&nbsp;</span><br/><br />`
+            document.getElementById("messages").innerHTML += `<span class="pseudoLabel">&nbsp;${valueObject.sender} </span>&nbsp;<span class="message">&nbsp;${valueObject.value.replaceAll("<br />", "&nbsp;<br />&nbsp;")}&nbsp;</span><br/><br />`
         }
     }
     else if (valueObject.type === "technicalError") {
