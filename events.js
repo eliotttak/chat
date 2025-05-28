@@ -82,7 +82,7 @@ wst.addEventListener("message", (evt) => {
                     lang: "fr",
                     badge: "/favicon.ico",
                     icon: "/favicon.ico",
-                    body: `Vous avez reçu un nouveau message de ${valueObject.sender} :\n${valueObject.value.length <= 80 ? valueObject.value : valueObject.value.substring(0, 100) + "…"}`
+                    body: valueObject.value.length <= 80 ? valueObject.value : valueObject.value.substring(0, 80) + "…"
                 })
             }
         }

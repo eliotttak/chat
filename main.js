@@ -72,14 +72,4 @@ function putErrorUnderTextInput(input, settings = {}) {
     }
     
     return newSpan
-}   
-
-setTimeout(async () => {
-    await Notification.requestPermission()
-    if (document.hasFocus()) {
-        const myNotif = new Notification("Notif test", {
-            body: "Hello",
-            icon: "/favicon.ico"
-        })
-    }
-}, 10000)
+}
