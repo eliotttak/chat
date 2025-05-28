@@ -65,6 +65,7 @@ wst.addEventListener("open", () => {
     console.log('WebSocket connection established.')
 })
 
+
 wst.addEventListener("message", (evt) => {
     const valueObject = JSON.parse(evt.data)
     console.log(valueObject)
@@ -75,6 +76,15 @@ wst.addEventListener("message", (evt) => {
         }
         else {
             document.getElementById("messages").innerHTML += `<span class="pseudoLabel">&nbsp;${valueObject.sender} </span>&nbsp;<span class="message">&nbsp;${valueObject.value.replaceAll("<br />", "&nbsp;<br />&nbsp;")}&nbsp;</span><br/><br />`
+
+            if ((! document.hasFocus()) && valueObject.sender !== pseudo) {
+                new Notification("Chat - Vous avez reçu un nouveau message de " + valueObject.sender, {
+                    lang: "fr",
+                    badge: "/favicon.ico",
+                    icon: "/favicon.ico",
+                    body: `Vous avez reçu un nouveau message de ${valueObject.sender} :\n${valueObject.value.length <= 80 ? valueObject.value : valueObject.value.substring(0, 100) + "…"}`
+                })
+            }
         }
     }
     else if (valueObject.type === "technicalError") {
