@@ -79,7 +79,7 @@ wst.addEventListener("message", (evt) => {
                 putErrorUnderTextInput(idInputpseudo, {
                     txt: "Ce pseudo déjà utilisé. Merci de recommencer.",
                     showTime: 5000
-        }       )
+                })
                 idInputpseudo.val("")
                 break
             case technicalMessages.fromServer.errors.incorrectPseudo:
