@@ -76,8 +76,10 @@ function putErrorUnderTextInput(input, settings = {}) {
 
 setTimeout(async () => {
     await Notification.requestPermission()
-    const myNotif = new Notification("Notif test", {
-        body: "Hello",
-        icon: "/favicon.ico"
-    })
+    if (document.hasFocus()) {
+        const myNotif = new Notification("Notif test", {
+            body: "Hello",
+            icon: "/favicon.ico"
+        })
+    }
 }, 10000)
