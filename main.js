@@ -73,3 +73,10 @@ function putErrorUnderTextInput(input, settings = {}) {
     
     return newSpan
 }   
+
+setTimeout(async () => {
+    await Notification.requestPermission()
+    const myNotif = new Notification("Notif test", {
+        body: "Hello"
+    })
+})
