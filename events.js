@@ -1,3 +1,7 @@
+(async () => {
+    await Notification.requestPermission()
+})()
+
 window.addEventListener("beforeunload", function (e) {
     dontSendUnconnectNotifs = true
     disconnect(wst)

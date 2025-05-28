@@ -80,4 +80,4 @@ setTimeout(async () => {
         body: "Hello",
         icon: "/favicon.ico"
     })
-})
+}, 10000)
