@@ -8,12 +8,7 @@ catch {
         tempWst = new WebSocket("wss://chat-8518.onrender.com/")
     }
     catch {
-        try {
-            tempWst = new WebSocket("wss://echat.up.railway.app/")
-        }
-        catch {
-            tempWst = new WebSocket("wss://elchat.netlify.app/")
-        }
+        tempWst = new WebSocket("wss://elchat.netlify.app/")
     }
 }
 
