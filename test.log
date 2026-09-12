@@ -1,0 +1,18 @@
+[[1;93mWARN[0m 2025-12-21 12:24:22] TEST WARN
+
+[[1;92mOK[0m 2025-12-21 12:24:22] TEST OK
+
+[[1;92mOK[0m 2025-12-21 12:24:22] Starting the server...
+
+[[1;91mERROR[0m 2025-12-21 12:24:22] TEST ERROR
+
+[[1;92mOK[0m 2025-12-21 12:24:22] Received a request: /
+POST / HTTP/1.1
+Host: localhost:8080
+Accept: */*
+Content-Length: 30
+Content-Type: application/x-www-form-urlencoded
+User-Agent: curl/8.16.0
+
+Maybe you will receive this...
+

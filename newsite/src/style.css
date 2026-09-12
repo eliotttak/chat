@@ -1,0 +1,56 @@
+html {
+    font-family: Arial;
+}
+
+#inputpseudo {
+    width: 500px;
+    height: 25px;
+    font-size: medium;
+    border-top: none;
+    border-left: none;
+    border-right: none;
+    border-bottom: solid grey 2px;
+}
+
+#inputpseudo:focus {
+    outline: none;
+    appearance: unset;
+    border-radius: 6.25px;
+    border: solid 2px black;
+    background-position: center center;
+}
+
+#okpseudo {
+    height: 25px;
+    font-size: medium;
+}
+
+#okmessage {
+    border: none;
+    left: 5px;
+    position: relative;
+    width: 35px;
+}
+
+.fromServer {
+    color: #777777;
+    font-size: 85%;
+}
+
+.pseudoLabel {
+    border-radius: 3px;
+    background-color: #e0e0e0;
+    color: #404040;
+    font-family: Arial;
+}
+
+@font-face {
+    font-family: Arial;
+    src: url(/Arial/arial.ttf);
+}
+
+.message {
+    position: absolute;
+    border: #7c7c7c solid 1px;
+    border-radius: 5px;
+}

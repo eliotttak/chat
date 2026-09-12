@@ -1,0 +1,6 @@
+github.com/eliotttak/go-ansi-colors v0.0.0-20260107153253-6dfbd384bbc5 h1:Xz6/jwfucrzpn5U0eCwM2/C07ArF9YoYz7dBnJGxZ/0=
+github.com/eliotttak/go-ansi-colors v0.0.0-20260107153253-6dfbd384bbc5/go.mod h1:PeOkQV1NKxafMBUC2wT26vo8dUnsfm4F4LFau2p//gM=
+github.com/eliotttak/go-logs/v2 v2.0.0 h1:cVPMUMI543cJr0fE7LR7pQL5T7E/5cRz19/QQzRrQqU=
+github.com/eliotttak/go-logs/v2 v2.0.0/go.mod h1:EZ9SzsvL4M9l67adtD6u332np0zVb/sxXDhsSkCGVzU=
+github.com/gorilla/websocket v1.5.3 h1:saDtZ6Pbx/0u+bgYQ3q96pZgCzfhKXGPqt7kZ72aNNg=
+github.com/gorilla/websocket v1.5.3/go.mod h1:YR8l580nyteQvAITg2hZ9XVh4b55+EU/adAjf1fMHhE=

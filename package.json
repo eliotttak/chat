@@ -3,5 +3,11 @@
     "colors": "^1.4.0",
     "local-ip": "^2.0.0",
     "websocket": "^1.0.35"
+  },
+  "devDependencies": {
+    "@types/jquery": "^3.5.33"
+  },
+  "scripts": {
+    "vite": "vite serve newserv"
   }
 }
